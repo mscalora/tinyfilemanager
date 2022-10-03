@@ -2,145 +2,85 @@
 //Default Configuration
 $CONFIG = '{"lang":"en","error_reporting":false,"show_hidden":false,"hide_Cols":false,"calc_folder":false,"theme":"light"}';
 
-
 /**
- * H3K | Tiny File Manager V2.4.8
+ * H3K | Tiny File Manager V2.5.0
  * CCP Programmers | ccpprogrammers@gmail.com
  * https://tinyfilemanager.github.io
  */
 
 //TFM version
-define('VERSION', '2.4.8');
+define('VERSION', '2.5.0');
 
-//Application Title
+//Application Title (use brand_title in settings to override)
 define('APP_TITLE', 'Tiny File Manager');
 
 // --- EDIT BELOW CONFIGURATION CAREFULLY ---
 
-// Auth with login/password
-// set true/false to enable/disable it
-// Is independent from IP white- and blacklisting
-$use_auth = true;
-
-// Login user name and password
-// Users: array('Username' => 'Password', 'Username2' => 'Password2', ...)
-// Generate secure password hash - https://tinyfilemanager.github.io/docs/pwd.html
-$auth_users = array(
-    'admin' => '$2y$10$/K.hjNr84lLNDt8fTXjoI.DBp6PpeyoJ.mGwrrLuCZfAwfSAGqhOW', //admin@123
-    'user' => '$2y$10$Fg6Dz8oH9fPoZ2jJan5tZuv6Z4Kp7avtQ9bDfrdRntXtPeiMAZyGO' //12345
+$settings_defaults = array(
+    'use_auth' => true, // false to disable built-in auth
+    'auth_users' => array(
+        'admin' => '$2y$10$gDFY6vGG3FEkYIHEvnhYo.UFYboaeoqBdwe2GNovKY0obWgRekAKS', // monkey123
+        'user' => '$2y$10$icLyksLDtUFwnWa4QdXK9eINsy5C6ziwoaiTcxMg69AeSMNNSRsAy' // monkey
+    ), // see: https://tinyfilemanager.github.io/docs/pwd.html
+    'readonly_users' => array('user'),
+    'global_readonly' => false,
+    'disable_direct_links' => false,
+    'directories_users' => array(), // user_name => path
+    'use_highlightjs' => true, // Enable highlight.js
+    'highlightjs_style' => 'vs', // vs or ir-black for dark theme
+    'edit_files' => true, // Enable ace.js
+    'default_timezone' => 'Etc/UTC', // see: http://php.net/manual/en/timezones.php
+    'root_path' => $_SERVER['DOCUMENT_ROOT'],
+    'root_url' => '',
+    'http_host' => $_SERVER['HTTP_HOST'],
+    'iconv_input_encoding' => 'UTF-8',
+    'datetime_format' => 'd.m.y H:i', // See: https://www.php.net/manual/en/function.date.php
+    'allowed_file_extensions' => '', // e.g. 'txt,html,css,js'
+    'allowed_upload_extensions' => '', // e.g. 'txt,html,css,js,png,jpg,jpeg,gif'
+    'favicon_path' => '', // absolute or relative URL
+    'brand_title' => APP_TITLE,
+    'brand_logo' => false,
+    'exclude_items' => array(), // e.g.: 'myfile.html', 'personal-folder', '*.php'
+    'online_viewer' => 'google', // google, microsoft or false
+    'sticky_navbar' => true,
+    'max_upload_size_bytes' => 5000, // in K
+    'ip_ruleset' => 'OFF', // OFF, AND, OR
+    'ip_silent' => true,
+    'ip_whitelist' => array('127.0.0.1','::1'),
+    'ip_blacklist' => array('0.0.0.0','::'),
+    'config_file' => __DIR__ . '/config.php',
+    'custom_css' => false,
+    'custom_js' => false,
+    'override_config' => false, // json
+    'head_html' => false, // inserted in head (just before </head>), string or function
+    'body_top_html' => false, // inserted at top of body (just after <body>), string or function
+    'body_bottom_html' => false, // inserted at bottom of body (just before </body>), string or function
 );
 
-// Readonly users
-// e.g. array('users', 'guest', ...)
-$readonly_users = array(
-    'user'
-);
-
-// Global readonly, including when auth is not being used
-$global_readonly = false;
-
-// user specific directories
-// array('Username' => 'Directory path', 'Username2' => 'Directory path', ...)
-$directories_users = array();
-
-// Enable highlight.js (https://highlightjs.org/) on view's page
-$use_highlightjs = true;
-
-// highlight.js style
-// for dark theme use 'ir-black'
-$highlightjs_style = 'vs';
-
-// Enable ace.js (https://ace.c9.io/) on view's page
-$edit_files = true;
-
-// Default timezone for date() and time()
-// Doc - http://php.net/manual/en/timezones.php
-$default_timezone = 'Etc/UTC'; // UTC
-
-// Root path for file manager
-// use absolute path of directory i.e: '/var/www/folder' or $_SERVER['DOCUMENT_ROOT'].'/folder'
-$root_path = $_SERVER['DOCUMENT_ROOT'];
-
-// Root url for links in file manager.Relative to $http_host. Variants: '', 'path/to/subfolder'
-// Will not working if $root_path will be outside of server document root
-$root_url = '';
-
-// Server hostname. Can set manually if wrong
-$http_host = $_SERVER['HTTP_HOST'];
-
-// user specific directories
-// array('Username' => 'Directory path', 'Username2' => 'Directory path', ...)
-$directories_users = array();
-
-// input encoding for iconv
-$iconv_input_encoding = 'UTF-8';
-
-// date() format for file modification date
-// Doc - https://www.php.net/manual/en/function.date.php
-$datetime_format = 'd.m.y H:i';
-
-// Allowed file extensions for create and rename files
-// e.g. 'txt,html,css,js'
-$allowed_file_extensions = '';
-
-// Allowed file extensions for upload files
-// e.g. 'gif,png,jpg,html,txt'
-$allowed_upload_extensions = '';
-
-// Favicon path. This can be either a full url to an .PNG image, or a path based on the document root.
-// full path, e.g http://example.com/favicon.png
-// local path, e.g images/icons/favicon.png
-$favicon_path = '';
-
-// Files and folders to excluded from listing
-// e.g. array('myfile.html', 'personal-folder', '*.php', ...)
-$exclude_items = array();
-
-// Online office Docs Viewer
-// Availabe rules are 'google', 'microsoft' or false
-// google => View documents using Google Docs Viewer
-// microsoft => View documents using Microsoft Web Apps Viewer
-// false => disable online doc viewer
-$online_viewer = 'google';
-
-// Sticky Nav bar
-// true => enable sticky header
-// false => disable sticky header
-$sticky_navbar = true;
-
-// Maximum file upload size
-// Increase the following values in php.ini to work properly
-// memory_limit, upload_max_filesize, post_max_size
-$max_upload_size_bytes = 5000;
-
-// Possible rules are 'OFF', 'AND' or 'OR'
-// OFF => Don't check connection IP, defaults to OFF
-// AND => Connection must be on the whitelist, and not on the blacklist
-// OR => Connection must be on the whitelist, or not on the blacklist
-$ip_ruleset = 'OFF';
-
-// Should users be notified of their block?
-$ip_silent = true;
-
-// IP-addresses, both ipv4 and ipv6
-$ip_whitelist = array(
-    '127.0.0.1',    // local ipv4
-    '::1'           // local ipv6
-);
-
-// IP-addresses, both ipv4 and ipv6
-$ip_blacklist = array(
-    '0.0.0.0',      // non-routable meta ipv4
-    '::'            // non-routable meta ipv6
-);
-
-// if User has the customized config file, try to use it to override the default config above
-$config_file = __DIR__.'/config.php';
-if (is_readable($config_file)) {
-    @include($config_file);
+foreach($settings_defaults as $name => $value) {
+    $settings = isset($GLOBALS['tfm_settings']) ? $GLOBALS['tfm_settings'] : false;
+    if (is_string($settings)) {
+        $settings = json_decode($settings);
+    }
+    $env_name = 'TFM_' . strtoupper($name);
+    if (isset($settings[$name])) {
+        $GLOBALS[$name] = $settings[$name];
+    } elseif (!isset($GLOBALS[$name])) {
+        if (defined($env_name)) {
+            $GLOBALS[$name] = constant($env_name);
+        } elseif (isset($_ENV[$env_name])) {
+            $GLOBALS[$name] = $_ENV[$env_name];
+        } else {
+            $GLOBALS[$name] = $value;
+        }
+    }
 }
 
-// --- EDIT BELOW CAREFULLY OR DO NOT EDIT AT ALL ---
+// --- EDIT BELOW CAREFULLY ---
+
+if ($config_file && is_readable($config_file)) {
+    @include($config_file);
+}
 
 // max upload file size
 define('MAX_UPLOAD_SIZE', $max_upload_size_bytes);
@@ -234,8 +174,10 @@ if (isset($_SESSION[FM_SESSION_ID]['logged']) && !empty($directories_users[$_SES
 $root_url = fm_clean_path($root_url);
 
 // abs path for site
-defined('FM_ROOT_URL') || define('FM_ROOT_URL', ($is_https ? 'https' : 'http') . '://' . $http_host . (!empty($root_url) ? '/' . $root_url : ''));
-defined('FM_SELF_URL') || define('FM_SELF_URL', ($is_https ? 'https' : 'http') . '://' . $http_host . $_SERVER['PHP_SELF']);
+define('FM_URL_BASE', ($is_https ? 'https' : 'http') . '://' . $http_host);
+defined('FM_ROOT_URL') || define('FM_ROOT_URL', FM_URL_BASE . (!empty($root_url) ? '/' . $root_url : ''));
+define('FM_SELF_PATH', isset($_SERVER['REQUEST_URI']) ?  preg_replace('/[?].*/', '', $_SERVER['REQUEST_URI']) : $_SERVER['PHP_SELF']);
+defined('FM_SELF_URL') || define('FM_SELF_URL', FM_URL_BASE . FM_SELF_PATH);
 
 // logout
 if (isset($_GET['logout'])) {
@@ -323,15 +265,19 @@ if ($use_auth) {
                                 <form class="form-signin" action="" method="post" autocomplete="off">
                                     <div class="form-group">
                                        <div class="brand">
-                                            <svg version="1.0" xmlns="http://www.w3.org/2000/svg" M1008 width="100%" height="80px" viewBox="0 0 238.000000 140.000000" aria-label="H3K Tiny File Manager">
-                                                <g transform="translate(0.000000,140.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
-                                                    <path d="M160 700 l0 -600 110 0 110 0 0 260 0 260 70 0 70 0 0 -260 0 -260 110 0 110 0 0 600 0 600 -110 0 -110 0 0 -260 0 -260 -70 0 -70 0 0 260 0 260 -110 0 -110 0 0 -600z"/>
-                                                    <path fill="#003500" d="M1008 1227 l-108 -72 0 -117 0 -118 110 0 110 0 0 110 0 110 70 0 70 0 0 -180 0 -180 -125 0 c-69 0 -125 -3 -125 -6 0 -3 23 -39 52 -80 l52 -74 73 0 73 0 0 -185 0 -185 -70 0 -70 0 0 115 0 115 -110 0 -110 0 0 -190 0 -190 181 0 181 0 109 73 108 72 1 181 0 181 -69 48 -68 49 68 50 69 49 0 249 0 248 -182 -1 -183 0 -107 -72z"/>
-                                                    <path d="M1640 700 l0 -600 110 0 110 0 0 208 0 208 35 34 35 34 35 -34 35 -34 0 -208 0 -208 110 0 110 0 0 212 0 213 -87 87 -88 88 88 88 87 87 0 213 0 212 -110 0 -110 0 0 -208 0 -208 -70 -69 -70 -69 0 277 0 277 -110 0 -110 0 0 -600z"/></g>
-                                            </svg>
+                                           <?php if ($brand_logo): 
+                                                echo $brand_logo;
+                                            else: ?>
+                                                <svg version="1.0" xmlns="http://www.w3.org/2000/svg" M1008 width="100%" height="80px" viewBox="0 0 238.000000 140.000000" aria-label="H3K Tiny File Manager">
+                                                    <g transform="translate(0.000000,140.000000) scale(0.100000,-0.100000)" fill="#000000" stroke="none">
+                                                        <path d="M160 700 l0 -600 110 0 110 0 0 260 0 260 70 0 70 0 0 -260 0 -260 110 0 110 0 0 600 0 600 -110 0 -110 0 0 -260 0 -260 -70 0 -70 0 0 260 0 260 -110 0 -110 0 0 -600z"/>
+                                                        <path fill="#003500" d="M1008 1227 l-108 -72 0 -117 0 -118 110 0 110 0 0 110 0 110 70 0 70 0 0 -180 0 -180 -125 0 c-69 0 -125 -3 -125 -6 0 -3 23 -39 52 -80 l52 -74 73 0 73 0 0 -185 0 -185 -70 0 -70 0 0 115 0 115 -110 0 -110 0 0 -190 0 -190 181 0 181 0 109 73 108 72 1 181 0 181 -69 48 -68 49 68 50 69 49 0 249 0 248 -182 -1 -183 0 -107 -72z"/>
+                                                        <path d="M1640 700 l0 -600 110 0 110 0 0 208 0 208 35 34 35 34 35 -34 35 -34 0 -208 0 -208 110 0 110 0 0 212 0 213 -87 87 -88 88 88 88 87 87 0 213 0 212 -110 0 -110 0 0 -208 0 -208 -70 -69 -70 -69 0 277 0 277 -110 0 -110 0 0 -600z"/></g>
+                                                </svg>
+                                            <?php endif; ?>
                                         </div>
                                         <div class="text-center">
-                                            <h1 class="card-title"><?php echo APP_TITLE; ?></h1>
+                                            <h1 class="card-title"><?php echo $GLOBALS['brand_title']; ?></h1>
                                         </div>
                                     </div>
                                     <hr />
@@ -392,7 +338,8 @@ defined('FM_FILE_EXTENSION') || define('FM_FILE_EXTENSION', $allowed_file_extens
 defined('FM_UPLOAD_EXTENSION') || define('FM_UPLOAD_EXTENSION', $allowed_upload_extensions);
 defined('FM_EXCLUDE_ITEMS') || define('FM_EXCLUDE_ITEMS', (version_compare(PHP_VERSION, '7.0.0', '<') ? serialize($exclude_items) : $exclude_items));
 defined('FM_DOC_VIEWER') || define('FM_DOC_VIEWER', $online_viewer);
-define('FM_READONLY', $use_auth && !empty($readonly_users) && isset($_SESSION[FM_SESSION_ID]['logged']) && in_array($_SESSION[FM_SESSION_ID]['logged'], $readonly_users));
+define('FM_READONLY', $global_readonly || ($use_auth && !empty($readonly_users) && isset($_SESSION[FM_SESSION_ID]['logged']) && in_array($_SESSION[FM_SESSION_ID]['logged'], $readonly_users)));
+define('FM_DIR_LINKS', !$disable_direct_links);
 define('FM_IS_WIN', DIRECTORY_SEPARATOR == '\\');
 
 // always use ?p=
@@ -1231,7 +1178,7 @@ if (!empty($folders)) {
 
 // upload form
 if (isset($_GET['upload']) && !FM_READONLY) {
-    fm_show_header(); // HEADER
+    fm_show_header('upload'); // HEADER
     fm_show_nav_path(FM_PATH); // current path
     //get the allowed file extensions
     function getUploadExt() {
@@ -1244,6 +1191,9 @@ if (isset($_GET['upload']) && !FM_READONLY) {
     }
     ?>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet">
+    <?php if(isset($GLOBALS['custom_css'])):
+        echo "<link rel='stylesheet' href='" . $GLOBALS['custom_css'] . "'>";
+    endif; ?>
     <div class="path">
 
         <div class="card mb-2 fm-upload-wrapper <?php echo fm_get_theme(); ?>">
@@ -1328,7 +1278,7 @@ if (isset($_POST['copy']) && !FM_READONLY) {
         fm_redirect(FM_SELF_URL . '?p=' . urlencode(FM_PATH));
     }
 
-    fm_show_header(); // HEADER
+    fm_show_header('copy'); // HEADER
     fm_show_nav_path(FM_PATH); // current path
     ?>
     <div class="path">
@@ -1373,7 +1323,7 @@ if (isset($_GET['copy']) && !isset($_GET['finish']) && !FM_READONLY) {
         fm_redirect(FM_SELF_URL . '?p=' . urlencode(FM_PATH));
     }
 
-    fm_show_header(); // HEADER
+    fm_show_header('copy'); // HEADER
     fm_show_nav_path(FM_PATH); // current path
     ?>
     <div class="path">
@@ -1410,7 +1360,7 @@ if (isset($_GET['copy']) && !isset($_GET['finish']) && !FM_READONLY) {
 }
 
 if (isset($_GET['settings']) && !FM_READONLY) {
-    fm_show_header(); // HEADER
+    fm_show_header('settings'); // HEADER
     fm_show_nav_path(FM_PATH); // current path
     global $cfg, $lang, $lang_list;
     ?>
@@ -1534,7 +1484,7 @@ if (isset($_GET['settings']) && !FM_READONLY) {
 }
 
 if (isset($_GET['help'])) {
-    fm_show_header(); // HEADER
+    fm_show_header('help'); // HEADER
     fm_show_nav_path(FM_PATH); // current path
     global $cfg, $lang;
     ?>
@@ -1588,6 +1538,24 @@ if (isset($_GET['help'])) {
     exit;
 }
 
+// raw fetch
+if (isset($_GET['raw'])) {
+    $file = $_GET['raw'];
+    $file = fm_clean_path($file, false);
+    $file = str_replace('/', '', $file);
+    $file_path = $path . '/' . $file;
+    if ($file == '' || !is_file($file_path)) {
+        http_response_code(404);
+        exit();
+    } elseif (!is_readable($file_path) || in_array($file, $GLOBALS['exclude_items'])) {
+        http_response_code(403);
+        exit();
+    }
+    header("Content-Type: " . fm_get_mime_type($file_path));
+    readfile($file_path);
+    exit();
+}
+
 // file viewer
 if (isset($_GET['view'])) {
     $file = $_GET['view'];
@@ -1600,13 +1568,14 @@ if (isset($_GET['view'])) {
     }
 
     if(!$quickView) {
-        fm_show_header(); // HEADER
+        fm_show_header('view'); // HEADER
         fm_show_nav_path(FM_PATH); // current path
     }
 
-    $file_url = FM_ROOT_URL . fm_convert_win((FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $file);
+    $dir_url = FM_ROOT_URL . fm_convert_win((FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $file);
     $file_path = $path . '/' . $file;
-
+    $content_url = FM_DIR_LINKS ? $dir_url : fm_make_proxy_url(FM_PATH, $file);
+    
     $ext = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
     $mime_type = fm_get_mime_type($file_path);
     $filesize_raw = fm_get_size($file_path);
@@ -1694,25 +1663,26 @@ if (isset($_GET['view'])) {
                 </p>
                 <p>
                     <b><a href="?p=<?php echo urlencode(FM_PATH) ?>&amp;dl=<?php echo urlencode($file) ?>"><i class="fa fa-cloud-download"></i> <?php echo lng('Download') ?></a></b> &nbsp;
-                    <b><a href="<?php echo fm_enc($file_url) ?>" target="_blank"><i class="fa fa-external-link-square"></i> <?php echo lng('Open') ?></a></b>
-                    &nbsp;
+                    <?php if (FM_DIR_LINKS): ?>
+                    <b><a href="<?php echo fm_enc($file_url) ?>" target="_blank"><i class="fa fa-external-link-square"></i> <?php echo lng('Open') ?></a> &nbsp;</b>
+                    <?php endif; ?>
                     <?php
                     // ZIP actions
                     if (!FM_READONLY && ($is_zip || $is_gzip) && $filenames !== false) {
                         $zip_name = pathinfo($file_path, PATHINFO_FILENAME);
                         ?>
-                        <b><a href="?p=<?php echo urlencode(FM_PATH) ?>&amp;unzip=<?php echo urlencode($file) ?>"><i class="fa fa-check-circle"></i> <?php echo lng('UnZip') ?></a></b> &nbsp;
+                        <b><a href="?p=<?php echo urlencode(FM_PATH) ?>&amp;unzip=<?php echo urlencode($file) ?>"><i class="fa fa-check-circle"></i> <?php echo lng('UnZip') ?></a>&nbsp;</b>
                         <b><a href="?p=<?php echo urlencode(FM_PATH) ?>&amp;unzip=<?php echo urlencode($file) ?>&amp;tofolder=1" title="UnZip to <?php echo fm_enc($zip_name) ?>"><i class="fa fa-check-circle"></i>
-                                <?php echo lng('UnZipToFolder') ?></a></b> &nbsp;
+                                <?php echo lng('UnZipToFolder') ?></a>&nbsp;</b>
                         <?php
                     }
                     if ($is_text && !FM_READONLY) {
                         ?>
                         <b><a href="?p=<?php echo urlencode(trim(FM_PATH)) ?>&amp;edit=<?php echo urlencode($file) ?>" class="edit-file"><i class="fa fa-pencil-square"></i> <?php echo lng('Edit') ?>
-                            </a></b> &nbsp;
+                            </a>&nbsp;</b> 
                         <b><a href="?p=<?php echo urlencode(trim(FM_PATH)) ?>&amp;edit=<?php echo urlencode($file) ?>&env=ace"
                               class="edit-file"><i class="fa fa-pencil-square-o"></i> <?php echo lng('AdvancedEditor') ?>
-                            </a></b> &nbsp;
+                            </a>&nbsp;</b>
                     <?php } ?>
                     <b><a href="?p=<?php echo urlencode(FM_PATH) ?>"><i class="fa fa-chevron-circle-left go-back"></i> <?php echo lng('Back') ?></a></b>
                 </p>
@@ -1720,9 +1690,9 @@ if (isset($_GET['view'])) {
             }
             if($is_onlineViewer) {
                 if($online_viewer == 'google') {
-                    echo '<iframe src="https://docs.google.com/viewer?embedded=true&hl=en&url=' . fm_enc($file_url) . '" frameborder="no" style="width:100%;min-height:460px"></iframe>';
+                    echo '<iframe src="https://docs.google.com/viewer?embedded=true&hl=en&url=' . fm_enc($content_url) . '" frameborder="no" style="width:100%;min-height:460px"></iframe>';
                 } else if($online_viewer == 'microsoft') {
-                    echo '<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=' . fm_enc($file_url) . '" frameborder="no" style="width:100%;min-height:460px"></iframe>';
+                    echo '<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=' . fm_enc($content_url) . '" frameborder="no" style="width:100%;min-height:460px"></iframe>';
                 }
             } elseif ($is_zip) {
                 // ZIP content
@@ -1742,14 +1712,14 @@ if (isset($_GET['view'])) {
             } elseif ($is_image) {
                 // Image content
                 if (in_array($ext, array('gif', 'jpg', 'jpeg', 'png', 'bmp', 'ico', 'svg', 'webp', 'avif'))) {
-                    echo '<p><img src="' . fm_enc($file_url) . '" alt="" class="preview-img"></p>';
+                    echo '<p><img src="' . fm_enc($content_url) . '" alt="" class="preview-img"></p>';
                 }
             } elseif ($is_audio) {
                 // Audio content
-                echo '<p><audio src="' . fm_enc($file_url) . '" controls preload="metadata"></audio></p>';
+                echo '<p><audio src="' . fm_enc($content_url) . '" controls preload="metadata"></audio></p>';
             } elseif ($is_video) {
                 // Video content
-                echo '<div class="preview-video"><video src="' . fm_enc($file_url) . '" width="640" height="360" controls preload="metadata"></video></div>';
+                echo '<div class="preview-video"><video src="' . fm_enc($content_url) . '" width="640" height="360" controls preload="metadata"></video></div>';
             } elseif ($is_text) {
                 if (FM_USE_HIGHLIGHTJS) {
                     // highlight
@@ -1794,7 +1764,7 @@ if (isset($_GET['edit'])) {
     }
     $editFile = ' : <i><b>'. $file. '</b></i>';
     header('X-XSS-Protection:0');
-    fm_show_header(); // HEADER
+    fm_show_header('edit'); // HEADER
     fm_show_nav_path(FM_PATH); // current path
 
     $file_url = FM_ROOT_URL . fm_convert_win((FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $file);
@@ -1889,7 +1859,7 @@ if (isset($_GET['chmod']) && !FM_READONLY && !FM_IS_WIN) {
         fm_redirect(FM_SELF_URL . '?p=' . urlencode(FM_PATH));
     }
 
-    fm_show_header(); // HEADER
+    fm_show_header('chmod'); // HEADER
     fm_show_nav_path(FM_PATH); // current path
 
     $file_url = FM_ROOT_URL . (FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $file;
@@ -1952,7 +1922,7 @@ if (isset($_GET['chmod']) && !FM_READONLY && !FM_IS_WIN) {
 }
 
 //--- FILEMANAGER MAIN
-fm_show_header(); // HEADER
+fm_show_header('main'); // HEADER
 fm_show_nav_path(FM_PATH); // current path
 
 // messages
@@ -2057,7 +2027,9 @@ $tableTheme = (FM_THEME == "dark") ? "text-white bg-dark table-dark" : "bg-white
                             <a title="<?php echo lng('Rename')?>" href="#" onclick="rename('<?php echo fm_enc(addslashes(FM_PATH)) ?>', '<?php echo fm_enc(addslashes($f)) ?>');return false;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
                             <a title="<?php echo lng('CopyTo')?>..." href="?p=&amp;copy=<?php echo urlencode(trim(FM_PATH . '/' . $f, '/')) ?>"><i class="fa fa-files-o" aria-hidden="true"></i></a>
                         <?php endif; ?>
+                        <?php if (FM_DIR_LINKS): ?>
                         <a title="<?php echo lng('DirectLink')?>" href="<?php echo fm_enc(FM_ROOT_URL . (FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $f . '/') ?>" target="_blank"><i class="fa fa-link" aria-hidden="true"></i></a>
+                        <?php endif; ?>
                     </td>
                 </tr>
                 <?php
@@ -2095,8 +2067,11 @@ $tableTheme = (FM_THEME == "dark") ? "text-white bg-dark table-dark" : "bg-white
                         <div class="filename">
                         <?php
                            if (in_array(strtolower(pathinfo($f, PATHINFO_EXTENSION)), array('gif', 'jpg', 'jpeg', 'png', 'bmp', 'ico', 'svg', 'webp', 'avif'))): ?>
-                                <?php $imagePreview = fm_enc(FM_ROOT_URL . (FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $f); ?>
-                                <a href="<?php echo $filelink ?>" data-preview-image="<?php echo $imagePreview ?>" title="<?php echo fm_enc($f) ?>">
+                                <?php
+                                    $direct_url = FM_ROOT_URL . (FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $f; 
+                                    $preview_url = FM_DIR_LINKS ? $direct_url : fm_make_proxy_url(FM_PATH, $f);
+                                ?>
+                                <a href="<?php echo $filelink ?>" data-preview-image="<?php echo fm_enc($preview_url) ?>" title="<?php echo fm_enc($f) ?>">
                            <?php else: ?>
                                 <a href="<?php echo $filelink ?>" title="<?php echo $f ?>">
                             <?php endif; ?>
@@ -2122,7 +2097,9 @@ $tableTheme = (FM_THEME == "dark") ? "text-white bg-dark table-dark" : "bg-white
                             <a title="<?php echo lng('CopyTo') ?>..."
                                href="?p=<?php echo urlencode(FM_PATH) ?>&amp;copy=<?php echo urlencode(trim(FM_PATH . '/' . $f, '/')) ?>"><i class="fa fa-files-o"></i></a>
                         <?php endif; ?>
+                        <?php if (FM_DIR_LINKS): ?>
                         <a title="<?php echo lng('DirectLink') ?>" href="<?php echo fm_enc(FM_ROOT_URL . (FM_PATH != '' ? '/' . FM_PATH : '') . '/' . $f) ?>" target="_blank"><i class="fa fa-link"></i></a>
+                        <?php endif; ?>
                         <a title="<?php echo lng('Download') ?>" href="?p=<?php echo urlencode(FM_PATH) ?>&amp;dl=<?php echo urlencode($f) ?>"><i class="fa fa-download"></i></a>
                     </td>
                 </tr>
@@ -2445,6 +2422,14 @@ function fm_get_parent_path($path)
         return '';
     }
     return false;
+}
+
+/**
+ * make proxy URL for path/file
+ */
+function fm_make_proxy_url($path, $filename)
+{
+    return FM_SELF_URL . '?p=' . urlencode($path) . '&raw=' . urlencode($filename);
 }
 
 /**
@@ -3500,7 +3485,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
 header("Pragma: no-cache");
 
-global $lang, $root_url, $favicon_path;
+global $lang, $root_url, $favicon_path, $head_html;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -3512,8 +3497,11 @@ global $lang, $root_url, $favicon_path;
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex">
     <?php if($favicon_path) { echo '<link rel="icon" href="'.fm_enc($favicon_path).'" type="image/png">'; } ?>
-    <title><?php echo fm_enc(APP_TITLE) ?></title>
+    <title><?php echo fm_enc($GLOBALS['brand_title']) ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <?php if(isset($GLOBALS['custom_css'])):
+        echo "<link rel='stylesheet' href='" . $GLOBALS['custom_css'] . "'>";
+    endif; ?>
     <style>
         body.fm-login-page{ background-color:#f7f9fb;font-size:14px;background-color:#f7f9fb;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 304 304' width='304' height='304'%3E%3Cpath fill='%23e2e9f1' fill-opacity='0.4' d='M44.1 224a5 5 0 1 1 0 2H0v-2h44.1zm160 48a5 5 0 1 1 0 2H82v-2h122.1zm57.8-46a5 5 0 1 1 0-2H304v2h-42.1zm0 16a5 5 0 1 1 0-2H304v2h-42.1zm6.2-114a5 5 0 1 1 0 2h-86.2a5 5 0 1 1 0-2h86.2zm-256-48a5 5 0 1 1 0 2H0v-2h12.1zm185.8 34a5 5 0 1 1 0-2h86.2a5 5 0 1 1 0 2h-86.2zM258 12.1a5 5 0 1 1-2 0V0h2v12.1zm-64 208a5 5 0 1 1-2 0v-54.2a5 5 0 1 1 2 0v54.2zm48-198.2V80h62v2h-64V21.9a5 5 0 1 1 2 0zm16 16V64h46v2h-48V37.9a5 5 0 1 1 2 0zm-128 96V208h16v12.1a5 5 0 1 1-2 0V210h-16v-76.1a5 5 0 1 1 2 0zm-5.9-21.9a5 5 0 1 1 0 2H114v48H85.9a5 5 0 1 1 0-2H112v-48h12.1zm-6.2 130a5 5 0 1 1 0-2H176v-74.1a5 5 0 1 1 2 0V242h-60.1zm-16-64a5 5 0 1 1 0-2H114v48h10.1a5 5 0 1 1 0 2H112v-48h-10.1zM66 284.1a5 5 0 1 1-2 0V274H50v30h-2v-32h18v12.1zM236.1 176a5 5 0 1 1 0 2H226v94h48v32h-2v-30h-48v-98h12.1zm25.8-30a5 5 0 1 1 0-2H274v44.1a5 5 0 1 1-2 0V146h-10.1zm-64 96a5 5 0 1 1 0-2H208v-80h16v-14h-42.1a5 5 0 1 1 0-2H226v18h-16v80h-12.1zm86.2-210a5 5 0 1 1 0 2H272V0h2v32h10.1zM98 101.9V146H53.9a5 5 0 1 1 0-2H96v-42.1a5 5 0 1 1 2 0zM53.9 34a5 5 0 1 1 0-2H80V0h2v34H53.9zm60.1 3.9V66H82v64H69.9a5 5 0 1 1 0-2H80V64h32V37.9a5 5 0 1 1 2 0zM101.9 82a5 5 0 1 1 0-2H128V37.9a5 5 0 1 1 2 0V82h-28.1zm16-64a5 5 0 1 1 0-2H146v44.1a5 5 0 1 1-2 0V18h-26.1zm102.2 270a5 5 0 1 1 0 2H98v14h-2v-16h124.1zM242 149.9V160h16v34h-16v62h48v48h-2v-46h-48v-66h16v-30h-16v-12.1a5 5 0 1 1 2 0zM53.9 18a5 5 0 1 1 0-2H64V2H48V0h18v18H53.9zm112 32a5 5 0 1 1 0-2H192V0h50v2h-48v48h-28.1zm-48-48a5 5 0 0 1-9.8-2h2.07a3 3 0 1 0 5.66 0H178v34h-18V21.9a5 5 0 1 1 2 0V32h14V2h-58.1zm0 96a5 5 0 1 1 0-2H137l32-32h39V21.9a5 5 0 1 1 2 0V66h-40.17l-32 32H117.9zm28.1 90.1a5 5 0 1 1-2 0v-76.51L175.59 80H224V21.9a5 5 0 1 1 2 0V82h-49.59L146 112.41v75.69zm16 32a5 5 0 1 1-2 0v-99.51L184.59 96H300.1a5 5 0 0 1 3.9-3.9v2.07a3 3 0 0 0 0 5.66v2.07a5 5 0 0 1-3.9-3.9H185.41L162 121.41v98.69zm-144-64a5 5 0 1 1-2 0v-3.51l48-48V48h32V0h2v50H66v55.41l-48 48v2.69zM50 53.9v43.51l-48 48V208h26.1a5 5 0 1 1 0 2H0v-65.41l48-48V53.9a5 5 0 1 1 2 0zm-16 16V89.41l-34 34v-2.82l32-32V69.9a5 5 0 1 1 2 0zM12.1 32a5 5 0 1 1 0 2H9.41L0 43.41V40.6L8.59 32h3.51zm265.8 18a5 5 0 1 1 0-2h18.69l7.41-7.41v2.82L297.41 50H277.9zm-16 160a5 5 0 1 1 0-2H288v-71.41l16-16v2.82l-14 14V210h-28.1zm-208 32a5 5 0 1 1 0-2H64v-22.59L40.59 194H21.9a5 5 0 1 1 0-2H41.41L66 216.59V242H53.9zm150.2 14a5 5 0 1 1 0 2H96v-56.6L56.6 162H37.9a5 5 0 1 1 0-2h19.5L98 200.6V256h106.1zm-150.2 2a5 5 0 1 1 0-2H80v-46.59L48.59 178H21.9a5 5 0 1 1 0-2H49.41L82 208.59V258H53.9zM34 39.8v1.61L9.41 66H0v-2h8.59L32 40.59V0h2v39.8zM2 300.1a5 5 0 0 1 3.9 3.9H3.83A3 3 0 0 0 0 302.17V256h18v48h-2v-46H2v42.1zM34 241v63h-2v-62H0v-2h34v1zM17 18H0v-2h16V0h2v18h-1zm273-2h14v2h-16V0h2v16zm-32 273v15h-2v-14h-14v14h-2v-16h18v1zM0 92.1A5.02 5.02 0 0 1 6 97a5 5 0 0 1-6 4.9v-2.07a3 3 0 1 0 0-5.66V92.1zM80 272h2v32h-2v-32zm37.9 32h-2.07a3 3 0 0 0-5.66 0h-2.07a5 5 0 0 1 9.8 0zM5.9 0A5.02 5.02 0 0 1 0 5.9V3.83A3 3 0 0 0 3.83 0H5.9zm294.2 0h2.07A3 3 0 0 0 304 3.83V5.9a5 5 0 0 1-3.9-5.9zm3.9 300.1v2.07a3 3 0 0 0-1.83 1.83h-2.07a5 5 0 0 1 3.9-3.9zM97 100a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-48 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 96a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-144a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-96 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm96 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-32 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM49 36a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-32 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM33 68a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 240a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm80-176a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 48a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm112 176a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-16 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM17 180a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 16a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0-32a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM17 84a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm32 64a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm16-16a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'%3E%3C/path%3E%3C/svg%3E");}
         .fm-login-page .brand{ width:121px;overflow:hidden;margin:0 auto;position:relative;z-index:1}
@@ -3539,8 +3527,10 @@ global $lang, $root_url, $favicon_path;
         body.fm-login-page.theme-dark {background-color: #2f2a2a;}
         .theme-dark svg g, .theme-dark svg path {fill: #ffffff; }
     </style>
+    <?php fm_show_custom_html('head_html', 'login'); ?>
 </head>
 <body class="fm-login-page <?php echo (FM_THEME == "dark") ? 'theme-dark' : ''; ?>">
+<?php fm_show_custom_html('body_top_html', 'login'); ?>
 <div id="wrapper" class="container-fluid">
 
     <?php
@@ -3555,15 +3545,33 @@ global $lang, $root_url, $favicon_path;
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.slim.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<?php if(isset($GLOBALS['custom_js'])):
+    echo "\n\t<script src='" . $GLOBALS['custom_js'] . "'></script>\n";
+endif; ?>
+<?php fm_show_custom_html('body_bottom_html', 'login'); ?>
 </body>
 </html>
 <?php
 }
 
 /**
+ * Show custom html for $placement on $page_id
+ * 
+ *   cusotm html functions will receive one parameter: $page_id
+ *     'login': login page
+ * 
+ */
+function fm_show_custom_html($placement, $page_id) {
+    if (is_string($GLOBALS[$placement])) {
+        echo $GLOBALS[$placement];
+    } elseif (is_callable($GLOBALS[$placement])) {
+        $GLOBALS[$placement]($page_id);
+    }
+}
+/**
  * Show Header after login
  */
-function fm_show_header()
+function fm_show_header($page_id)
 {
 $sprites_ver = '20160315';
 header("Content-Type: text/html; charset=utf-8");
@@ -3591,6 +3599,9 @@ $isStickyNavBar = $sticky_navbar ? 'navbar-fixed' : 'navbar-normal';
     <?php if (FM_USE_HIGHLIGHTJS): ?>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/<?php echo FM_HIGHLIGHTJS_STYLE ?>.min.css">
     <?php endif; ?>
+    <?php if(isset($GLOBALS['custom_css'])):
+        echo "<link rel='stylesheet' href='" . $GLOBALS['custom_css'] . "'>";
+    endif; ?>
     <style>
         body { font-size:14px;color:#222;background:#F7F7F7; }
         body.navbar-fixed { margin-top:55px; }
@@ -3707,6 +3718,9 @@ $isStickyNavBar = $sticky_navbar ? 'navbar-fixed' : 'navbar-normal';
         .c-preview-img {
             max-width: 300px;
         }
+        body.read-only .hide-read-only {
+            display: none;
+        }
     </style>
     <?php
     if (FM_THEME == "dark"): ?>
@@ -3720,8 +3734,18 @@ $isStickyNavBar = $sticky_navbar ? 'navbar-fixed' : 'navbar-normal';
             .theme-dark .btn-outline-primary:hover, .theme-dark .btn-outline-primary:active { background-color: #028211;}
         </style>
     <?php endif; ?>
+    <?php fm_show_custom_html('head_html', $page_id); ?>
 </head>
-<body class="<?php echo (FM_THEME == "dark") ? 'theme-dark' : ''; ?> <?php echo $isStickyNavBar; ?>">
+<?php
+    $bodyClasses = array(
+        "page-id-$page_id",
+        (FM_THEME == "dark") ? 'theme-dark' : '',
+        FM_READONLY ? 'read-only' : '',
+        $isStickyNavBar,
+    );
+?>
+<body class="<?php echo implode(' ', $bodyClasses); ?>">
+<?php fm_show_custom_html('body_top_html', $page_id); ?>
 <div id="wrapper" class="container-fluid">
 
     <!-- New Item creation -->
@@ -4052,6 +4076,10 @@ $isStickyNavBar = $sticky_navbar ? 'navbar-fixed' : 'navbar-normal';
     </script>
 <?php endif; ?>
 <div id="snackbar"></div>
+<?php if(isset($GLOBALS['custom_js'])):
+    echo "\n\t<script src='" . $GLOBALS['custom_js'] . "'></script>\n";
+endif; ?>
+<?php fm_show_custom_html('body_bottom_html', $page_id); ?>
 </body>
 </html>
 <?php
